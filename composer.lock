@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7ce0470da334974a878cd04b709b5aab",
-    "content-hash": "9eab6603df8e6c537ca9294cba8c1241",
+    "hash": "b27456af28f35d905f435c4f3ce5f27f",
+    "content-hash": "9ece3fa85293a379c702de8bba5dcf2c",
     "packages": [
         {
             "name": "hoa/compiler",
@@ -610,6 +610,52 @@
                 "visitor"
             ],
             "time": "2015-08-17 06:30:58"
+        },
+        {
+            "name": "ruler/ruler",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/Ruler.git",
+                "reference": "7076f4bbea5606750e18ab15632da2ace3784b44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/Ruler/zipball/7076f4bbea5606750e18ab15632da2ace3784b44",
+                "reference": "7076f4bbea5606750e18ab15632da2ace3784b44",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ruler": "src",
+                    "Ruler\\Test": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Hileman",
+                    "email": "justin@justinhileman.info",
+                    "homepage": "http://justinhileman.com/"
+                }
+            ],
+            "description": "A simple stateless production rules engine for PHP 5.3.",
+            "homepage": "https://github.com/bobthecow/Ruler",
+            "keywords": [
+                "engine",
+                "rules"
+            ],
+            "time": "2014-09-02 11:42:20"
         }
     ],
     "packages-dev": [],

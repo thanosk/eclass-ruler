@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Ruler\\Test' => array($vendorDir . '/ruler/ruler/tests'),
+    'Ruler' => array($vendorDir . '/ruler/ruler/src'),
 );
