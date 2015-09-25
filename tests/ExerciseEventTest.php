@@ -10,7 +10,7 @@ class ExerciseEventTest extends PHPUnit_Framework_TestCase {
     public function setUp() {
         $this->exEv = new ExerciseEvent();
         $data = new stdClass();
-        $data->activity_type = 'exercise';
+        $data->activityType = ExerciseEvent::ACTIVITY;
         $data->module = 10;
         $data->resource = 1;
         $data->uid = 1000;
@@ -32,7 +32,7 @@ class ExerciseEventTest extends PHPUnit_Framework_TestCase {
         $data = $this->eventData;
         $this->assertNotNull($context);
         $this->assertInstanceOf('Hoa\\Ruler\\Context', $context);
-        $this->assertEquals($data->activity_type, $context['activity_type']);
+        $this->assertEquals($data->activityType, $context['activity_type']);
         $this->assertEquals($data->module, $context['module']);
         $this->assertEquals($data->resource, $context['resource']);
     }

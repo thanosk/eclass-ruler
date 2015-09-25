@@ -14,25 +14,17 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
         return $this->context;
     }
     
-    protected function initContextFromEvent() {
-        $data = $this->eventData;
-        
+    protected function setEventData($data) {
+        // create context from standard event data
         $context = new Hoa\Ruler\Context();
-        // standard data from event
-        $context['activity_type']  = $data->activity_type;
+        $context['activity_type']  = $data->activityType;
         $context['module']  = $data->module;
         $context['resource'] = $data->resource;
         
+        $this->eventData = $data;
         $this->context = $context;
-    }
-    
-    protected function preDataListeners() {
-        $this->on('fire-rules', function() {
-            echo "firing rules now\n";
-        });
-    }
-    
-    protected function postDataListeners() {
+        
+        // set post-data event listeners
         $this->on('prepare-rules', function() {
             echo "preparing rules now\n";
             // TODO: implement business logic
@@ -40,6 +32,13 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
             // if certificates/criterions are setup for this context, then emit
             $this->emit('fire-rules');
             // else do not emit nothing
+        });
+    }
+    
+    protected function preDataListeners() {
+        $this->on('fire-rules', function() {
+            echo "firing rules now\n";
+            // TODO: evaluate rule-engine criteria
         });
     }
     
