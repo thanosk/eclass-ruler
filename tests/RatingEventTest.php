@@ -31,9 +31,8 @@ class RatingEventTest extends AbstractEventTest {
     }
     
     public function testForumContext() {
-        $data = self::$forumData;
-        $this->currentdata = $data;
-        $this->event->emit('like-submitted', [$data]);
+        $this->currentdata = self::$forumData;
+        $this->event->emit('like-submitted', [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
@@ -41,9 +40,8 @@ class RatingEventTest extends AbstractEventTest {
     }
     
     public function testSocialBookmarkContext() {
-        $data = self::$socialBookmarkData;
-        $this->currentdata = $data;
-        $this->event->emit('like-submitted', [$data]);
+        $this->currentdata = self::$socialBookmarkData;
+        $this->event->emit('like-submitted', [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);

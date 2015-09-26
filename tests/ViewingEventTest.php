@@ -51,9 +51,8 @@ class ViewingEventTest extends AbstractEventTest {
     }
     
     public function testVideoContext() {
-        $data = self::$videoData;
-        $this->currentdata = $data;
-        $this->event->emit('resource-viewed', [$data]);
+        $this->currentdata = self::$videoData;
+        $this->event->emit('resource-viewed', [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
@@ -61,9 +60,8 @@ class ViewingEventTest extends AbstractEventTest {
     }
     
     public function testEbookContext() {
-        $data = self::$ebookData;
-        $this->currentdata = $data;
-        $this->event->emit('resource-viewed', [$data]);
+        $this->currentdata = self::$ebookData;
+        $this->event->emit('resource-viewed', [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
@@ -71,9 +69,8 @@ class ViewingEventTest extends AbstractEventTest {
     }
     
     public function testDocumentContext() {
-        $data = self::$documentData;
-        $this->currentdata = $data;
-        $this->event->emit('resource-viewed', [$data]);
+        $this->currentdata = self::$documentData;
+        $this->event->emit('resource-viewed', [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
@@ -81,9 +78,8 @@ class ViewingEventTest extends AbstractEventTest {
     }
     
     public function testQuestionnaireContext() {
-        $data = self::$questionnaireData;
-        $this->currentdata = $data;
-        $this->event->emit('resource-viewed', [$data]);
+        $this->currentdata = self::$questionnaireData;
+        $this->event->emit('resource-viewed', [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
