@@ -2,18 +2,17 @@
 
 require_once 'BasicEvent.php';
 
-class ExerciseEvent extends BasicEvent {
+class AssignmentEvent extends BasicEvent {
     
-    const ACTIVITY = 'exercise';
+    const ACTIVITY = 'assignment';
     
     public function __construct() {
         parent::__construct();
         
-        $this->on('exercise-submitted', function($data) {
-            echo "exercise-submitted event received!\n";
+        $this->on('assignment-graded', function($data) {
             $this->setEventData($data);
             
-            // TODO: fetch data from DB: SELECT EXERCISE GRADE FOR USER $data->uid
+            // TODO: fetch data from DB: SELECT ASSIGNMENT GRADE FOR USER $data->uid
             $this->context['threshold'] = 8.6;
             $this->emit('prepare-rules');
         });
