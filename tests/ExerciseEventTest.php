@@ -21,7 +21,7 @@ class ExerciseEventTest extends AbstractEventTest {
     }
     
     public function testExerciseContext() {
-        $this->event->emit('exercise-submitted', [$this->currentdata]);
+        $this->event->emit(ExerciseEvent::NEWRESULT, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);

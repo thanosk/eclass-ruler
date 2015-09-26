@@ -2,11 +2,11 @@
 
 require_once 'BasicEvent.php';
 
-class ForumEvent extends BasicEvent {
+class BlogEvent extends BasicEvent {
     
-    const ACTIVITY = 'forum';
-    const NEWPOST = 'forumpost-submitted';
-    const DELPOST = 'forumpost-deleted';
+    const ACTIVITY = 'blog';
+    const NEWPOST = 'blogpost-submitted';
+    const DELPOST = 'blogpost-deleted';
     
     public function __construct() {
         parent::__construct();
@@ -14,8 +14,8 @@ class ForumEvent extends BasicEvent {
         $handle = function($data) {
             $this->setEventData($data);
             
-            // TODO: fetch data from DB: SELECT COUNT POST FROM FORUM FOR USER $data->uid
-            $this->context['threshold'] = 20;
+            // TODO: fetch data from DB: SELECT COUNT BLOG POSTS FOR USER $data->uid
+            $this->context['threshold'] = 12;
             $this->emit('prepare-rules');
         };
         

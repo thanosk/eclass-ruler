@@ -16,7 +16,7 @@ class ViewingEventTest extends AbstractEventTest {
         $videoData = new stdClass();
         $videoData->courseId = 1;
         $videoData->uid = 1000;
-        $videoData->activityType = ViewingEvent::VIDEO;
+        $videoData->activityType = ViewingEvent::VIDEO_ACTIVITY;
         $videoData->module = 5;
         $videoData->resource = 1;
         self::$videoData = $videoData;
@@ -24,7 +24,7 @@ class ViewingEventTest extends AbstractEventTest {
         $ebookData = new stdClass();
         $ebookData->courseId = 1;
         $ebookData->uid = 1000;
-        $ebookData->activityType = ViewingEvent::EBOOK;
+        $ebookData->activityType = ViewingEvent::EBOOK_ACTIVITY;
         $ebookData->module = 18;
         $ebookData->resource = 1;
         self::$ebookData = $ebookData;
@@ -32,7 +32,7 @@ class ViewingEventTest extends AbstractEventTest {
         $documentData = new stdClass();
         $documentData->courseId = 1;
         $documentData->uid = 1000;
-        $documentData->activityType = ViewingEvent::DOCUMENT;
+        $documentData->activityType = ViewingEvent::DOCUMENT_ACTIVITY;
         $documentData->module = 3;
         $documentData->resource = 1;
         self::$documentData = $documentData;
@@ -40,7 +40,7 @@ class ViewingEventTest extends AbstractEventTest {
         $questionnaireData = new stdClass();
         $questionnaireData->courseId = 1;
         $questionnaireData->uid = 1000;
-        $questionnaireData->activityType = ViewingEvent::QUESTIONNAIRE;
+        $questionnaireData->activityType = ViewingEvent::QUESTIONNAIRE_ACTIVITY;
         $questionnaireData->module = 21;
         $questionnaireData->resource = 1;
         self::$questionnaireData = $questionnaireData;
@@ -52,37 +52,37 @@ class ViewingEventTest extends AbstractEventTest {
     
     public function testVideoContext() {
         $this->currentdata = self::$videoData;
-        $this->event->emit('resource-viewed', [$this->currentdata]);
+        $this->event->emit(ViewingEvent::NEWVIEW, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::VIDEO, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::VIDEO_ACTIVITY, $context['activity_type']);
     }
     
     public function testEbookContext() {
         $this->currentdata = self::$ebookData;
-        $this->event->emit('resource-viewed', [$this->currentdata]);
+        $this->event->emit(ViewingEvent::NEWVIEW, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::EBOOK, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::EBOOK_ACTIVITY, $context['activity_type']);
     }
     
     public function testDocumentContext() {
         $this->currentdata = self::$documentData;
-        $this->event->emit('resource-viewed', [$this->currentdata]);
+        $this->event->emit(ViewingEvent::NEWVIEW, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::DOCUMENT, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::DOCUMENT_ACTIVITY, $context['activity_type']);
     }
     
     public function testQuestionnaireContext() {
         $this->currentdata = self::$questionnaireData;
-        $this->event->emit('resource-viewed', [$this->currentdata]);
+        $this->event->emit(ViewingEvent::NEWVIEW, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::QUESTIONNAIRE, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::QUESTIONNAIRE_ACTIVITY, $context['activity_type']);
     }
 }

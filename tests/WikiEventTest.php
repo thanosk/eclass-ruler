@@ -1,34 +1,34 @@
 <?php
 
 require_once 'AbstractEventTest.php';
-require_once 'src/ForumEvent.php';
+require_once 'src/WikiEvent.php';
 
-class ForumEventTest extends AbstractEventTest {
+class WikiEventTest extends AbstractEventTest {
     
     public static function setUpBeforeClass() {
         self::$hasResource = true;
     }
     
     public function setUp() {
-        $this->event = new ForumEvent();
+        $this->event = new WikiEvent();
         $data = new stdClass();
         $data->courseId = 1;
         $data->uid = 1000;
-        $data->activityType = ForumEvent::ACTIVITY;
-        $data->module = 9;
+        $data->activityType = WikiEvent::ACTIVITY;
+        $data->module = 26;
         $data->resource = 1;
         $this->currentdata = $data;
     }
     
-    public function testNewPostContext() {
-        $this->event->emit(ForumEvent::NEWPOST, [$this->currentdata]);
+    public function testNewPageContext() {
+        $this->event->emit(WikiEvent::NEWPAGE, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
     }
     
-    public function testDeletePostContext() {
-        $this->event->emit(ForumEvent::DELPOST, [$this->currentdata]);
+    public function testDeletePageContext() {
+        $this->event->emit(WikiEvent::DELPAGE, [$this->currentdata]);
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);

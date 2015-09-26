@@ -48,12 +48,12 @@ abstract class CriterionAbstract {
     abstract public function evaluate($context);
     
     protected function assertedAction() {
-        echo "Rule evaluated as True\nrunning assertedAction(): insert into user_\$type_criterion(user, id) values (\$this->uid, \$this->id) \n";
+        //echo "Rule evaluated as True\nrunning assertedAction(): insert into user_\$type_criterion(user, id) values (\$this->uid, \$this->id) \n";
         // TODO: insert into user_$type_criterion(user, id) values ($this->uid, $this->id)
     }
     
     protected function notAssertedAction() {
-        echo "Rule evaluated as False\nrunning notAssertedAction(): delete from user_\$type_criterion where user = \$this->uid and id = \$this->id \n";
+        //echo "Rule evaluated as False\nrunning notAssertedAction(): delete from user_\$type_criterion where user = \$this->uid and id = \$this->id \n";
         // TODO: delete from user_$type_criterion where user = $this->uid and id = $this->id
     }
 }

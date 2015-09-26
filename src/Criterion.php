@@ -24,7 +24,7 @@ class Criterion extends CriterionAbstract {
             return $v !== null;
         }));
         
-        echo "buildRule() result: " . $this->rule . "\n";
+        //echo "buildRule() result: " . $this->rule . "\n";
     }
     
     public function evaluate($context) {

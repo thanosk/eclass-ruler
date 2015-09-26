@@ -5,11 +5,12 @@ require_once 'BasicEvent.php';
 class AssignmentEvent extends BasicEvent {
     
     const ACTIVITY = 'assignment';
+    const NEWGRADE = 'assignment-graded';
     
     public function __construct() {
         parent::__construct();
         
-        $this->on('assignment-graded', function($data) {
+        $this->on(self::NEWGRADE, function($data) {
             $this->setEventData($data);
             
             // TODO: fetch data from DB: SELECT ASSIGNMENT GRADE FOR USER $data->uid
