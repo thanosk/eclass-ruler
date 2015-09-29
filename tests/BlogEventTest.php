@@ -32,5 +32,7 @@ class BlogEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
+        $this->assertArrayHasKey('threshold', $context);
+        $this->assertNotNull($context['threshold']);
     }
 }
