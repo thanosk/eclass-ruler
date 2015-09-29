@@ -5,6 +5,7 @@ abstract class AbstractEventTest extends PHPUnit_Framework_TestCase {
     protected $event;
     protected $currentdata;
     protected static $hasResource;
+    protected static $hasThreshold;
     
     public function assertPreConditions() {
         $this->assertNull($this->event->getContext());
@@ -23,6 +24,12 @@ abstract class AbstractEventTest extends PHPUnit_Framework_TestCase {
             } else {
                 $this->assertObjectNotHasAttribute('resource', $data);
                 $this->assertObjectNotHasAttribute('resource', $context);
+            }
+            if (self::$hasThreshold) {
+                $this->assertArrayHasKey('threshold', $context);
+                $this->assertNotNull($context['threshold']);
+            } else {
+                $this->assertArrayNotHasKey('threshold', $context);
             }
         }
     }

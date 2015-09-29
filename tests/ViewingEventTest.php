@@ -12,6 +12,7 @@ class ViewingEventTest extends AbstractEventTest {
     
     public static function setUpBeforeClass() {
         self::$hasResource = true;
+        self::$hasThreshold = false;
         // video
         $videoData = new stdClass();
         $videoData->courseId = 1;
@@ -57,7 +58,6 @@ class ViewingEventTest extends AbstractEventTest {
         
         $this->assertNotNull($context);
         $this->assertEquals(ViewingEvent::VIDEO_ACTIVITY, $context['activity_type']);
-        $this->assertArrayNotHasKey('threshold', $context);
     }
     
     public function testEbookContext() {
@@ -67,7 +67,6 @@ class ViewingEventTest extends AbstractEventTest {
         
         $this->assertNotNull($context);
         $this->assertEquals(ViewingEvent::EBOOK_ACTIVITY, $context['activity_type']);
-        $this->assertArrayNotHasKey('threshold', $context);
     }
     
     public function testDocumentContext() {
@@ -77,7 +76,6 @@ class ViewingEventTest extends AbstractEventTest {
         
         $this->assertNotNull($context);
         $this->assertEquals(ViewingEvent::DOCUMENT_ACTIVITY, $context['activity_type']);
-        $this->assertArrayNotHasKey('threshold', $context);
     }
     
     public function testQuestionnaireContext() {
@@ -87,6 +85,5 @@ class ViewingEventTest extends AbstractEventTest {
         
         $this->assertNotNull($context);
         $this->assertEquals(ViewingEvent::QUESTIONNAIRE_ACTIVITY, $context['activity_type']);
-        $this->assertArrayNotHasKey('threshold', $context);
     }
 }

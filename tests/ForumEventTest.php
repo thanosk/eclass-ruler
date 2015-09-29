@@ -7,6 +7,7 @@ class ForumEventTest extends AbstractEventTest {
     
     public static function setUpBeforeClass() {
         self::$hasResource = true;
+        self::$hasThreshold = true;
     }
     
     public function setUp() {
@@ -25,8 +26,6 @@ class ForumEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertArrayHasKey('threshold', $context);
-        $this->assertNotNull($context['threshold']);
     }
     
     public function testDeletePostContext() {
@@ -34,7 +33,5 @@ class ForumEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertArrayHasKey('threshold', $context);
-        $this->assertNotNull($context['threshold']);
     }
 }
