@@ -13,6 +13,13 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
     protected $badgeIds;
     protected $criterionSet;
     
+    public static function trigger($eventname, $eventdata) {
+        $class = get_called_class();
+        $event = new $class;
+        $event->emit($eventname, [$eventdata]);
+        return $event->getContext();
+    }
+    
     public function __construct() {
         $this->preDataListeners();
     }
