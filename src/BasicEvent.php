@@ -31,11 +31,13 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
     protected function setEventData($data) {
         // create context from standard event data
         $context = new Hoa\Ruler\Context();
-        $context['activity_type']  = $data->activityType;
+        $context['activityType']  = $data->activityType;
         $context['module']  = $data->module;
         if (isset($data->resource)) {
             $context['resource'] = $data->resource;
         }
+        $context['courseId'] = $data->courseId;
+        $context['uid'] = $data->uid;
         
         $this->eventData = $data;
         $this->context = $context;
@@ -61,60 +63,30 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
                 $this->badgeIds[] = $b->id;
             }, $data->courseId, $data->uid);
             
-            // select certificate criteria not already conquered
-            if (count($this->certificateIds) > 0) {
-                $inCertIds = "(" . implode(",", $this->certificateIds) . ")";
-                $certArgs = array($data->uid, $data->activityType, $data->module);
-                $andResource = '';
-                if (isset($data->resource)) {
-                    $andResource = " and c.resource = ?d ";
-                    $certArgs[] = $data->resource;
-                }
-                $critsQ = "select c.*, 'certificate' as type from certificate_criterion c"
-                        . " where c.certificate in " . $inCertIds . " "
-                        . " and c.id not in (select certificate_criterion from user_certificate_criterion where user = ?d) "
+            $iter = array();
+            $iter['certificate'] = $this->certificateIds;
+            $iter['badge'] = $this->badgeIds;
+            
+            foreach ($iter as $key => $ids) {
+                // select criteria not already conquered
+                if (count($ids) >0) {
+                    $inIds = "(" . implode(",", $ids) . ")";
+                    $args = array($data->uid, $data->activityType, $data->module);
+                    $andResource = '';
+                    if (isset($data->resource)) {
+                        $andResource = " and c.resource = ?d ";
+                        $args[] = $data->resource;
+                    }
+                    $critsQ = "select c.*, '$key' as type from {$key}_criterion c"
+                        . " where c.$key in " . $inIds . " "
+                        . " and c.id not in (select {$key}_criterion from user_{$key}_criterion where user = ?d) "
                         . " and c.activity_type = ?s "
                         . " and c.module = ?d "
                         . $andResource;
-                Database::get()->queryFunc($critsQ, function ($crit) {
-                    $this->criterionSet->addCriterion(Criterion::initWithProperties(
-                        $crit->id, 
-                        $crit->type, 
-                        $crit->activity_type, 
-                        $crit->module, 
-                        $crit->resource, 
-                        $crit->threshold, 
-                        $crit->operator
-                    ));
-                }, $certArgs);
-            }
-            
-            // select badge criteria not already conquered
-            if (count($this->badgeIds) > 0) {
-                $inBadgeIds = "(" . implode(",", $this->badgeIds) . ")";
-                $badgeArgs = array($data->uid, $data->activityType, $data->module);
-                $andResource = '';
-                if (isset($data->resource)) {
-                    $andResource = " and b.resource = ?d ";
-                    $badgeArgs[] = $data->resource;
+                    Database::get()->queryFunc($critsQ, function ($crit) {
+                        $this->criterionSet->addCriterion(Criterion::initWithProperties($crit));
+                    }, $args);
                 }
-                $badgesQ = "select b.*, 'badge' as type from badge_criterion b"
-                        . " where b.badge in " . $inBadgeIds . " "
-                        . " and b.id not in (select badge_criterion from user_badge_criterion where user = ?d) "
-                        . " and b.activity_type = ?s "
-                        . " and b.module = ?d "
-                        . $andResource;
-                Database::get()->queryFunc($critsQ, function ($crit) {
-                    $this->criterionSet->addCriterion(Criterion::initWithProperties(
-                        $crit->id, 
-                        $crit->type, 
-                        $crit->activity_type, 
-                        $crit->module, 
-                        $crit->resource, 
-                        $crit->threshold, 
-                        $crit->operator
-                    ));
-                }, $badgeArgs);
             }
             
             // ready to fire the rule-engine

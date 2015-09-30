@@ -7,14 +7,22 @@ class CriterionTest extends PHPUnit_Framework_TestCase {
     private $criterion;
     
     public function setUp() {
-        $this->criterion = Criterion::initWithProperties(1, 'certificate', 'exercise', 10, 1, 8.6, 'get');
+        $props = new stdClass();
+        $props->id = 1;
+        $props->type = 'certificate';
+        $props->activity_type = 'exercise';
+        $props->module = 10;
+        $props->resource = 1;
+        $props->threshold = 8.6;
+        $props->operator = 'get';
+        $this->criterion = Criterion::initWithProperties($props);
     }
     
     public function testOne() {
         $context = new Hoa\Ruler\Context();
         // η πληροφορία του act_type, module, resource μπορεί να προέρχεται κατευθείαν
         // από ένα user-generated event (π.χ. submit τελευταίου βήματος άσκησης)
-        $context['activity_type']  = 'exercise';
+        $context['activityType']  = 'exercise';
         $context['module']  = 10;
         $context['resource'] = 1;
         // η πληροφορία του threshold μπορεί να προέρχεται από ένα ContextCreator Object
@@ -30,7 +38,7 @@ class CriterionTest extends PHPUnit_Framework_TestCase {
     
     public function testTwo() {
         $context = new Hoa\Ruler\Context();
-        $context['activity_type']  = 'forum';
+        $context['activityType']  = 'forum';
         $context['module']  = 9;
         $context['threshold'] = new Hoa\Ruler\DynamicCallable(function () {
             // count user's forum posts from DB

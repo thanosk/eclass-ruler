@@ -7,12 +7,20 @@ class CriterionSimpleTest extends PHPUnit_Framework_TestCase {
     private $criterion;
     
     public function setUp() {
-        $this->criterion = CriterionSimple::initWithProperties(1, 'certificate', 'exercise', 10, 1, 8.6, 'get');
+        $props = new stdClass();
+        $props->id = 1;
+        $props->type = 'certificate';
+        $props->activity_type = 'exercise';
+        $props->module = 10;
+        $props->resource = 1;
+        $props->threshold = 8.6;
+        $props->operator = 'get';
+        $this->criterion = CriterionSimple::initWithProperties($props);
     }
     
     public function testOne() {
         $context = new Ruler\Context(array(
-            'activity_type' => 'exercise',
+            'activityType' => 'exercise',
             'module' => 10,
             'resource' => 1,
             'threshold' => function() {
@@ -25,7 +33,7 @@ class CriterionSimpleTest extends PHPUnit_Framework_TestCase {
     
     public function testTwo() {
         $context = new Ruler\Context(array(
-            'activity_type' => 'forum',
+            'activityType' => 'forum',
             'module' => 9,
             'threshold' => function() {
                 return 20.0;

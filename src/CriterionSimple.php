@@ -13,7 +13,7 @@ class CriterionSimple extends CriterionAbstract {
         $rb = $this->ruler;
         
         $op = new Ruler\Operator\LogicalAnd();
-        $op->addOperand($rb['activity_type']->equalTo($this->activity_type));
+        $op->addOperand($rb['activityType']->equalTo($this->activityType));
         $op->addOperand($rb['module']->equalTo($this->module));
         $op->addOperand($rb['resource']->equalTo($this->resource));
         if (!is_null($this->threshold) && !is_null($this->operator)) {
@@ -26,10 +26,10 @@ class CriterionSimple extends CriterionAbstract {
     
     public function evaluate($context) {
         if ($this->rule->evaluate($context)) {
-            $this->assertedAction();
+            $this->assertedAction($context);
             return true;
         } else {
-            $this->notAssertedAction();
+            $this->notAssertedAction($context);
             return false;
         }
     }

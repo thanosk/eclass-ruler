@@ -10,7 +10,7 @@ class Criterion extends CriterionAbstract {
     }
     
     protected function buildRule() {
-        $act_type = (!is_null($this->activity_type)) ? 'activity_type = "' . $this->activity_type . '"': null;
+        $act_type = (!is_null($this->activityType)) ? 'activityType = "' . $this->activityType . '"': null;
         $module = (!is_null($this->module)) ? 'module = ' . $this->module : null;
         $resource = (!is_null($this->resource)) ? 'resource = ' . $this->resource : null;
         
@@ -29,10 +29,10 @@ class Criterion extends CriterionAbstract {
     
     public function evaluate($context) {
         if ($this->ruler->assert($this->rule, $context)) {
-            $this->assertedAction();
+            $this->assertedAction($context);
             return true;
         } else {
-            $this->notAssertedAction();
+            $this->notAssertedAction($context);
             return false;
         }
     }

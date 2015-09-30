@@ -17,8 +17,10 @@ abstract class AbstractEventTest extends PHPUnit_Framework_TestCase {
         
         if ($context !== NULL) {
             $this->assertInstanceOf('Hoa\\Ruler\\Context', $context);
-            $this->assertEquals($data->activityType, $context['activity_type']);
+            $this->assertEquals($data->activityType, $context['activityType']);
             $this->assertEquals($data->module, $context['module']);
+            $this->assertEquals($data->courseId, $context['courseId']);
+            $this->assertEquals($data->uid, $context['uid']);
             if (self::$hasResource) {
                 $this->assertEquals($data->resource, $context['resource']);
             } else {

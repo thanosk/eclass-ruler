@@ -1,14 +1,19 @@
 <?php
 
+require_once 'initEclass.php';
+
 abstract class CriterionAbstract {
     
     protected $id;
     protected $type;
-    protected $activity_type;
+    protected $activityType;
     protected $module;
     protected $resource;
     protected $threshold;
     protected $operator;
+    
+    protected $table;
+    protected $field;
     
     protected $rule;
     protected $ruler;
@@ -22,23 +27,26 @@ abstract class CriterionAbstract {
     protected function loadById($id, $type) {
         echo "running loadById(): select * from \$type_criterion WHERE id = \$id \n";
         // TODO: $crit = FROM DB
-        $this->loadByProperties($id, $type, $crit->activity_type, $crit->module, $crit->resource, $crit->threshold, $crit->operator);
+        $this->loadByProperties($crit);
     }
     
-    public static function initWithProperties($id, $type, $activity_type, $module, $resource, $threshold, $operator) {
+    public static function initWithProperties($properties) {
         $instance = new static();
-        $instance->loadByProperties($id, $type, $activity_type, $module, $resource, $threshold, $operator);
+        $instance->loadByProperties($properties);
         return $instance;
     }
     
-    protected function loadByProperties($id, $type, $activity_type, $module, $resource, $threshold, $operator) {
-        $this->id = $id;
-        $this->type = $type;
-        $this->activity_type = $activity_type;
-        $this->module = $module;
-        $this->resource = $resource;
-        $this->threshold = $threshold;
-        $this->operator = $operator;
+    protected function loadByProperties($properties) {
+        $this->id = $properties->id;
+        $this->type = $properties->type;
+        $this->activityType = $properties->activity_type;
+        $this->module = $properties->module;
+        $this->resource = $properties->resource;
+        $this->threshold = $properties->threshold;
+        $this->operator = $properties->operator;
+        
+        $this->table = 'user_' . $properties->type . '_criterion';
+        $this->field = $properties->type . '_criterion';
         
         $this->buildRule();
     }
@@ -47,14 +55,21 @@ abstract class CriterionAbstract {
     
     abstract public function evaluate($context);
     
-    protected function assertedAction() {
-        //echo "Rule evaluated as True\nrunning assertedAction(): insert into user_\$type_criterion(user, id) values (\$this->uid, \$this->id) \n";
-        // TODO: insert into user_$type_criterion(user, id) values ($this->uid, $this->id)
+    protected function assertedAction($context) {
+        $uid = (isset($context['uid'])) ? $context['uid'] : null;
+        if ($uid) {
+            $exists = Database::get()->querySingle("select count(id) as cnt from $this->table where user = ?d and $this->field = ?d", $uid, $this->id)->cnt;
+            if (!$exists) {
+                Database::get()->query("insert into $this->table (user, $this->field) values (?d, ?d)", $uid, $this->id);
+            }
+        }
     }
     
-    protected function notAssertedAction() {
-        //echo "Rule evaluated as False\nrunning notAssertedAction(): delete from user_\$type_criterion where user = \$this->uid and id = \$this->id \n";
-        // TODO: delete from user_$type_criterion where user = $this->uid and id = $this->id
+    protected function notAssertedAction($context) {
+        $uid = (isset($context['uid'])) ? $context['uid'] : null;
+        if ($uid) {
+            Database::get()->query("delete from $this->table where user = ?d and $this->field = ?d", $uid, $this->id);
+        }
     }
 }
 

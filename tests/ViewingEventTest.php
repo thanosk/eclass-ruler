@@ -57,7 +57,7 @@ class ViewingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::VIDEO_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::VIDEO_ACTIVITY, $context['activityType']);
     }
     
     public function testEbookContext() {
@@ -66,7 +66,7 @@ class ViewingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::EBOOK_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::EBOOK_ACTIVITY, $context['activityType']);
     }
     
     public function testDocumentContext() {
@@ -75,7 +75,7 @@ class ViewingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::DOCUMENT_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::DOCUMENT_ACTIVITY, $context['activityType']);
     }
     
     public function testQuestionnaireContext() {
@@ -84,6 +84,6 @@ class ViewingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(ViewingEvent::QUESTIONNAIRE_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(ViewingEvent::QUESTIONNAIRE_ACTIVITY, $context['activityType']);
     }
 }

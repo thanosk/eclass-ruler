@@ -37,7 +37,7 @@ class RatingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(RatingEvent::FORUM_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(RatingEvent::FORUM_ACTIVITY, $context['activityType']);
     }
     
     public function testDelForumLikeContext() {
@@ -46,7 +46,7 @@ class RatingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(RatingEvent::FORUM_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(RatingEvent::FORUM_ACTIVITY, $context['activityType']);
     }
     
     public function testNewSocialBookmarkLikeContext() {
@@ -55,7 +55,7 @@ class RatingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(RatingEvent::SOCIALBOOKMARK_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(RatingEvent::SOCIALBOOKMARK_ACTIVITY, $context['activityType']);
     }
     
     public function testDelSocialBookmarkLikeContext() {
@@ -64,6 +64,6 @@ class RatingEventTest extends AbstractEventTest {
         $context = $this->event->getContext();
         
         $this->assertNotNull($context);
-        $this->assertEquals(RatingEvent::SOCIALBOOKMARK_ACTIVITY, $context['activity_type']);
+        $this->assertEquals(RatingEvent::SOCIALBOOKMARK_ACTIVITY, $context['activityType']);
     }
 }
