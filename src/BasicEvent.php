@@ -3,9 +3,14 @@
 require_once 'initEclass.php';
 require_once 'Criterion.php';
 require_once 'CriterionSet.php';
+require_once 'Game.php';
 
 class BasicEvent implements Sabre\Event\EventEmitterInterface {
     use Sabre\Event\EventEmitterTrait;
+    
+    const PREPARERULES = 'prepare-rules';
+    const FIRERULES = 'fire-rules';
+    const COMPLETIONRULES = 'completion-rules';
     
     protected $context;
     protected $eventData;
@@ -43,7 +48,7 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
         $this->context = $context;
         
         // set post-data event listeners
-        $this->on('prepare-rules', function() {
+        $this->on(self::PREPARERULES, function() {
             $data = $this->eventData;
             $this->certificateIds = array();
             $this->badgeIds = array();
@@ -90,13 +95,47 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
             }
             
             // ready to fire the rule-engine
-            $this->emit('fire-rules');
+            $this->emit(self::FIRERULES);
         });
     }
     
     protected function preDataListeners() {
-        $this->on('fire-rules', function() {
+        $this->on(self::FIRERULES, function() {
             $this->criterionSet->evaluateCriteria($this->context);
+            $this->emit(self::COMPLETIONRULES, [$this->eventData]);
+        });
+        
+        $this->on(self::COMPLETIONRULES, function($data) {
+            $context = new Hoa\Ruler\Context();
+            $context['uid'] = $data->uid;
+            $context['courseId'] = $data->courseId;
+            $context['userCriterionIds'] = array();
+            
+            $iter = array('certificate', 'badge');
+            foreach ($iter as $key) {
+                $gameQ = "select g.*, '$key' as type from $key g where course = ?d and active = 1 and (expires is null or expires > ?t)";
+                Database::get()->queryFunc($gameQ, function($game) use ($key, $data, &$context) {
+                    // get game child-criterion ids
+                    $criterionIds = array();
+                    Database::get()->queryFunc("select c.id from {$key}_criterion c where $key = ?d ", function($crit) use (&$criterionIds) {
+                        $criterionIds[] = $crit->id;
+                    }, $game->id);
+                    $game->criterionIds = $criterionIds;
+                    
+                    // get user satisfied criterion ids
+                    $userCriterionIds = array();
+                    $critQ = "select uc.{$key}_criterion as criterion from user_{$key}_criterion uc where user = ?d";
+                    Database::get()->queryFunc($critQ, function($uc) use (&$userCriterionIds, $criterionIds) {
+                        if (in_array($uc->criterion, $criterionIds)) {
+                            $userCriterionIds[] = $uc->criterion;
+                        }
+                    }, $data->uid);
+                    $context['userCriterionIds'] = $userCriterionIds;
+                    
+                    $gameObj = Game::initWithProperties($game);
+                    $gameObj->evaluate($context);
+                }, $data->courseId, gmdate('Y-m-d H:i:s'));
+            }
         });
     }
     

@@ -15,7 +15,7 @@ class AssignmentEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT ASSIGNMENT GRADE FOR USER $data->uid
             $this->context['threshold'] = 8.6;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         });
     }
     

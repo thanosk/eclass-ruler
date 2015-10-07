@@ -15,7 +15,7 @@ class ViewingEvent extends BasicEvent {
         
         $this->on(self::NEWVIEW, function($data) {
             $this->setEventData($data);
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         });
     }
     

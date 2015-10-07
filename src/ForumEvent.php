@@ -16,7 +16,7 @@ class ForumEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT COUNT POST FROM FORUM FOR USER $data->uid
             $this->context['threshold'] = 20;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         };
         
         $this->on(self::NEWPOST, $handle);

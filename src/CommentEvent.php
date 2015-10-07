@@ -16,7 +16,7 @@ class CommentEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT COUNT COMMENTS FOR USER $data->uid FOR MODULE $data->module
             $this->context['threshold'] = 18;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         };
         
         $this->on(self::NEWCOMMENT, $handle);

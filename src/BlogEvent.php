@@ -16,7 +16,7 @@ class BlogEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT COUNT BLOG POSTS FOR USER $data->uid
             $this->context['threshold'] = 12;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         };
         
         $this->on(self::NEWPOST, $handle);

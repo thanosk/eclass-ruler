@@ -16,7 +16,7 @@ class WikiEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT COUNT WIKI PAGES FOR USER $data->uid
             $this->context['threshold'] = 7;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         };
         
         $this->on(self::NEWPAGE, $handle);

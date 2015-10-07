@@ -15,7 +15,7 @@ class ExerciseEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT EXERCISE GRADE FOR USER $data->uid
             $this->context['threshold'] = 8.6;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         });
     }
     

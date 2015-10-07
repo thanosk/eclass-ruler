@@ -14,7 +14,7 @@ class LearningPathEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT LP USER GRADE FOR USER $data->uid
             $this->context['threshold'] = 80;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         });
     }
     

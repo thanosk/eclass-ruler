@@ -17,7 +17,7 @@ class RatingEvent extends BasicEvent {
             
             // TODO: fetch data from DB: SELECT COUNT LIKES FROM RATING FOR USER $data->uid FOR MODULE $data->module
             $this->context['threshold'] = 80;
-            $this->emit('prepare-rules');
+            $this->emit(parent::PREPARERULES);
         };
         
         $this->on(self::NEWLIKE, $handle);
