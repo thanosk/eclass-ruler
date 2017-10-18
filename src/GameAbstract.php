@@ -44,7 +44,7 @@ abstract class GameAbstract {
         if ($uid) {
             $exists = Database::get()->querySingle("select count(id) as cnt from $this->table where user = ?d and $this->field = ?d", $uid, $this->id)->cnt;
             if (!$exists) {
-                Database::get()->query("insert into $this->table (user, $this->field, created) values (?d, ?d, ?t)", $uid, $this->id, gmdate('Y-m-d H:i:s'));
+                Database::get()->query("insert into $this->table (user, $this->field, assigned) values (?d, ?d, ?t)", $uid, $this->id, gmdate('Y-m-d H:i:s'));
             }
         }
     }

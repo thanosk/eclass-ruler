@@ -55,15 +55,15 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
             $this->criterionSet = new CriterionSet();
             
             // select certificates not already conquered
-            $certsQ = "select c.id from certificate c where c.course = ?d and c.id not in ("
-                    . " select certificate from user_certificate where user = ?d )";
+            $certsQ = "select c.id from certificate c where c.course_id = ?d and c.id not in ("
+                    . " select certificate from user_certificate where user = ?d and completed = 1)";
             Database::get()->queryFunc($certsQ, function($c) {
                 $this->certificateIds[] = $c->id;
             }, $data->courseId, $data->uid);
             
             // select badges not already conquered
-            $badgesQ = "select b.id from badge b where b.course = ?d and b.id not in ("
-                    . " select badge from user_badge where user = ?d )";
+            $badgesQ = "select b.id from badge b where b.course_id = ?d and b.id not in ("
+                    . " select badge from user_badge where user = ?d and completed = 1)";
             Database::get()->queryFunc($badgesQ, function($b) {
                 $this->badgeIds[] = $b->id;
             }, $data->courseId, $data->uid);
@@ -113,7 +113,7 @@ class BasicEvent implements Sabre\Event\EventEmitterInterface {
             
             $iter = array('certificate', 'badge');
             foreach ($iter as $key) {
-                $gameQ = "select g.*, '$key' as type from $key g where course = ?d and active = 1 and (expires is null or expires > ?t)";
+                $gameQ = "select g.*, '$key' as type from $key g where course_id = ?d and active = 1 and (expires is null or expires > ?t)";
                 Database::get()->queryFunc($gameQ, function($game) use ($key, $data, &$context) {
                     // get game child-criterion ids
                     $criterionIds = array();
